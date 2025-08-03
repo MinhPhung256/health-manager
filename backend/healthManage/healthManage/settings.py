@@ -9,11 +9,14 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 from pathlib import Path
+import os
+import pymysql
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -46,22 +49,6 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 2,
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    ],
-}
-
-
-
-CKEDITOR_UPLOAD_PATH = "ckeditors/lessons/"
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -72,7 +59,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-
 ]
 
 ROOT_URLCONF = 'healthManage.urls'
@@ -105,21 +91,15 @@ DATABASES = {
         'NAME': 'healthdb',
         'USER': 'root',
         'PASSWORD': '12345',
-        'HOST': ''  # mặc định localhost
+        'HOST': '',  # mặc định localhost
     }
 }
 
-AUTH_USER_MODEL = 'managements.User'
-
-import pymysql
 pymysql.install_as_MySQLdb()
 
-import cloudinary
-from dotenv import load_dotenv
-import os
+AUTH_USER_MODEL = 'managements.User'
 
-load_dotenv()
-
+# Cloudinary cấu hình
 cloudinary.config(
     cloud_name='dy9g3l14t',
     api_key='561892272853825',
@@ -127,6 +107,31 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# CKEditor
+CKEDITOR_UPLOAD_PATH = "ckeditors/lessons/"
+
+# Django REST framework
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 2,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    ],
+}
+
+# OAuth2 provider
+OAUTH2_PROVIDER = {
+    'SCOPES': {'read': 'Read access', 'write': 'Write access'},
+    'GRANT_TYPES': ['password', 'authorization_code', 'refresh_token', 'client_credentials'],
+}
+
+CLIENT_ID = 'uIYv1mlMlvaGg0d1GqqHiMfqIzcOjyv65uuVR3rd'
+CLIENT_SECRET = 'JhbJR58y3fo7RTugTGA9msbJVGUTsioLqqBOOEl8UXzL4Fm9NqPjLM8Yy7VHhOEOsn8XChSxLCfkeLjV74f3ECBD1GYR0NTbbeJO7mhqL5oSvmioPsji0Rosw2RXxmul'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -166,12 +171,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-OAUTH2_PROVIDER = {
-    'SCOPES': {'read': 'Read access', 'write': 'Write access'},
-    'GRANT_TYPES': ['password', 'authorization_code', 'refresh_token', 'client_credentials'], # Đảm bảo 'password' ở đây
-    # ... các cấu hình khác
-}
-
-CLIENT_ID = 'uIYv1mlMlvaGg0d1GqqHiMfqIzcOjyv65uuVR3rd'
-CLIENT_SECRET = 'JhbJR58y3fo7RTugTGA9msbJVGUTsioLqqBOOEl8UXzL4Fm9NqPjLM8Yy7VHhOEOsn8XChSxLCfkeLjV74f3ECBD1GYR0NTbbeJO7mhqL5oSvmioPsji0Rosw2RXxmul'
