@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'corsheaders',
-    'social_django',
 ]
 
 REST_FRAMEWORK = {
@@ -59,11 +58,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
 
 CKEDITOR_UPLOAD_PATH = "ckeditors/lessons/"
