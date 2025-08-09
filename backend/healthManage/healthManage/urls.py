@@ -25,7 +25,7 @@ schema_view = get_schema_view(
         title="App API",
         default_version="v1",
         description="APIs for App",
-        contact=openapi.Contact(email="hiephoang2912@gmail.com"),
+        contact=openapi.Contact(email="minhphung.nt256@gmail.com"),
         license=openapi.License(name="Health Manage App"),
     ),
     public=True,
